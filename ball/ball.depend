@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1606728009 source:e:\cgame\ball\main.c
+1606728386 source:e:\cgame\ball\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
