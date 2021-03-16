@@ -1,7 +1,7 @@
 # depslib dependency file v1.0
-1615520709 source:e:\cgame\plane_2\main.c
+1615898955 source:e:\cgame\ball_2\main.c
 	<stdio.h>
 	<stdlib.h>
-	<conio.h>
 	<windows.h>
+	<conio.h>
 

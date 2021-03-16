@@ -4,6 +4,7 @@
 #include <windows.h>
 
 //全局变量定义
+int gameover = 0;
 int position_x,position_y;   //飞机位置
 int bullet_x,bullet_y;   //子弹位置
 int enemy_x,enemy_y;    //敌机位置
@@ -27,8 +28,8 @@ void HideCursor()       //用于隐藏光标
 
 void startup()     //Initialization data
 {
-    high = 29;
-    width = 120;
+    high = 25;
+    width = 60;
 
     position_x = high/2;
     position_y = width/2;
@@ -37,7 +38,7 @@ void startup()     //Initialization data
     bullet_y = position_y;
 
     enemy_x = 0;
-    enemy_y = position_y;
+    enemy_y = rand() % (width-4)+2;
 
     score = 0;
 
@@ -50,10 +51,22 @@ void show()     //Screen display
 
     int i,j;
 
-    for(i = 0;i < high; i++){
-        for(j = 1;j < width; j++){
+    //得分为负，游戏结束
+    if(score < 0){
+        system("cls");
+        printf("GAME OVER! YOU LOSE!\n");
+        gameover = 1;
+    }
+
+    for(i = 0;(i < high)&&(!gameover); i++){
+        for(j = 0;j < width; j++){
             if((i == position_x) && (j == position_y))
-                printf("*");       //输出飞机*
+                printf("*");       //输出飞机
+            else if(((i == position_x) && (j == position_y))||((i == position_x+1) && (j == position_y))
+                    ||((i == position_x+1) && (j == position_y-1))||((i == position_x+1) && (j == position_y-2))
+                    ||((i == position_x+1) && (j == position_y+1))||((i == position_x+1) && (j == position_y+2))
+                    ||((i == position_x+2) && (j == position_y-1))||((i == position_x+2) && (j == position_y+1)))
+                printf("*");
             else if ((i == bullet_x) && (j == bullet_y))
                 printf("|");       //输出子弹|
             else if ((i == enemy_x) && (j == enemy_y))
@@ -61,8 +74,11 @@ void show()     //Screen display
             else
                 printf(" ");       //输出空格
         }
-        printf("\n");
+        printf("▌\n");      //&打印边界
     }
+    for(j = 0;j < width; j++)
+        printf("▄");
+    printf("\n");
     printf("得分：%d 分\n", score);
 }
 
@@ -75,23 +91,42 @@ void updateWithoutInput()   //Input irrelevant updates
     if((bullet_x == enemy_x)&&(bullet_y == enemy_y)){
         score++;
         enemy_x = 0;
-        enemy_y = rand() % width;
+        enemy_y = rand() % (width-4)+2;
+        bullet_x = -1;
+    }
+    //敌机撞上本机后敌机消失，得分-1
+    if(((enemy_x == position_x) && (enemy_y == position_y))||((enemy_x == position_x+1) && (enemy_y == position_y))
+        ||((enemy_x == position_x+1) && (enemy_y == position_y-1))||((enemy_x == position_x+1) && (enemy_y == position_y-2))
+        ||((enemy_x == position_x+1) && (enemy_y == position_y+1))||((enemy_x == position_x+1) && (enemy_y == position_y+2))
+        ||((enemy_x == position_x+2) && (enemy_y == position_y-1))||((enemy_x == position_x+2) && (enemy_y == position_y+1))){
+        score--;
+        enemy_x = 0;
+        enemy_y = rand() % (width-4)+2;
         bullet_x = -1;
     }
 
-    static int speed = 0;
-    if(enemy_x > high){
+    static int speed = 0;           //敌机下落速度因子
+    if(enemy_x > high){             //敌机下落到最后则敌机消失，得分-1
         enemy_x = 0;
-        enemy_y = rand() % width;
+        enemy_y = rand() % (width-4)+2;
+        score--;
     }
     else {
-        if(speed < 5)
+        if(speed < 8)
             speed++;
         else{
             enemy_x++;
             speed = 0;
 
         }
+    }
+
+    //击中后得分加1，敌机重新生成，子弹消失
+    if((bullet_x == enemy_x)&&(bullet_y == enemy_y)){
+        score++;
+        enemy_x = 0;
+        enemy_y = rand() % (width-4)+2;
+        bullet_x = -1;
     }
 }
 
@@ -105,19 +140,23 @@ void updateWithInput()      //Input relevant updates
         switch(input){     //按键控制移动、射击
         case 'a':
         case 'A':
-            position_y--;
+            if(position_y > 2)
+                position_y--;
             break;
         case 's':
         case 'S':
-            position_x++;
+            if(position_x < high - 3)
+                position_x++;
             break;
         case 'd':
         case 'D':
-            position_y++;
+            if(position_y < width - 3)
+                position_y++;
             break;
         case 'w':
         case 'W':
-            position_x--;
+            if(position_x > 2)
+                position_x--;
             break;
         case ' ':
             bullet_x = position_x - 1;
@@ -132,7 +171,7 @@ void updateWithInput()      //Input relevant updates
 int main()
 {
     startup();     //Initialization data
-    while(1)       //Game loop execution
+    while(!gameover)       //Game loop execution
     {
         show();     //Screen display
         updateWithoutInput();   //Input irrelevant updates
