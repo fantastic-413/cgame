@@ -51,13 +51,6 @@ void show()     //Screen display
 
     int i,j;
 
-    //得分为负，游戏结束
-    if(score < 0){
-        system("cls");
-        printf("GAME OVER! YOU LOSE!\n");
-        gameover = 1;
-    }
-
     for(i = 0;(i < high)&&(!gameover); i++){
         for(j = 0;j < width; j++){
             if((i == position_x) && (j == position_y))
@@ -79,7 +72,8 @@ void show()     //Screen display
     for(j = 0;j < width; j++)
         printf("▄");
     printf("\n");
-    printf("得分：%d 分\n", score);
+    printf("得分：%d \n", score);
+    printf("按 L 键结束游戏\n");
 }
 
 void updateWithoutInput()   //Input irrelevant updates
@@ -162,6 +156,10 @@ void updateWithInput()      //Input relevant updates
             bullet_x = position_x - 1;
             bullet_y = position_y;
             break;
+        case 'L':
+        case 'l':
+            gameover = 1;
+            printf("Game Over!\n");
         default:
             break;
         }
