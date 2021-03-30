@@ -104,18 +104,18 @@ void updateWithoutInput()   //Input irrelevant updates
     {
         if(ball_vx > 0){
             ball_vx = -ball_vx;
-            if(ball_speed == 3)
-                rebound_num++;
         }
+        if(ball_speed == 3)
+                rebound_num++;
     }
 
     if(((target_x == position_x - 1)) && (target_y >= left && target_y <= right))
     {
         if(target_vx > 0){
             target_vx = -target_vx;
-            if(target_speed == 6)
-                rebound_num++;
         }
+        if(target_speed == 6)
+                rebound_num++;
     }
 
     //碰到边界后，改变速度的方向

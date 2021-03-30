@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1617102813 source:e:\cgame\ball_2\main.c
+1617104693 source:e:\cgame\flappy_bird\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
