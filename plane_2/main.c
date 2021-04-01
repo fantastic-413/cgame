@@ -8,6 +8,7 @@ int gameover = 0;
 int position_x,position_y;   //飞机位置
 int bullet_x,bullet_y;   //子弹位置
 int enemy_x,enemy_y;    //敌机位置
+int enemy_speed;        //敌机速度限制因子
 int width,high;     //游戏画面尺寸
 int score;      //得分
 
@@ -39,6 +40,7 @@ void startup()     //Initialization data
 
     enemy_x = 0;
     enemy_y = rand() % (width-4)+2;
+    enemy_speed = 8;
 
     score = 0;
 
@@ -73,6 +75,7 @@ void show()     //Screen display
         printf("▄");
     printf("\n");
     printf("得分：%d \n", score);
+    printf("按P加快敌人速度\n");
     printf("按 L 键结束游戏\n");
 }
 
@@ -106,7 +109,7 @@ void updateWithoutInput()   //Input irrelevant updates
         score--;
     }
     else {
-        if(speed < 8)
+        if(speed < enemy_speed)
             speed++;
         else{
             enemy_x++;
@@ -156,10 +159,15 @@ void updateWithInput()      //Input relevant updates
             bullet_x = position_x - 1;
             bullet_y = position_y;
             break;
+        case 'p':
+        case 'P':
+            enemy_speed /= 2;
+            break;
         case 'L':
         case 'l':
             gameover = 1;
             printf("Game Over!\n");
+            break;
         default:
             break;
         }

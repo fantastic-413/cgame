@@ -1,10 +1,9 @@
 # depslib dependency file v1.0
-1617118054 source:e:\cgame\z1_holdonfor100seconds\main.cpp
+1617288226 source:e:\cgame\z2_gameoflife\main.cpp
 	<iostream>
 	<conio.h>
 	<time.h>
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
-	<math.h>
 

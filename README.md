@@ -9,5 +9,6 @@ C语言小游戏
 5.飞机射击2.0
 
 z1.是男人就坚持100秒
+z2.生命游戏（模拟细胞生存）
 =======
 >>>>>>> parent of c2b04fd... Merge branch 'main' of https://github.com/fantastic-413/cgame into main

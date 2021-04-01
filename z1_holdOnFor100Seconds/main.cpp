@@ -7,17 +7,20 @@
 #include<math.h>
 #define MAX_X 36
 #define MAX_Y 98
+#define MIN_X 10
+#define MIN_Y 10
+#define MAX_NUM 50
 
 using namespace std;
 
 //全局变量定义
 int game_map[MAX_X][MAX_Y] = {0};     //可选地图大小
-int enemy_x[50],enemy_y[50];      //敌人坐标
+int enemy_x[MAX_NUM],enemy_y[MAX_NUM];      //敌人坐标
 int enemy_num;                      //敌人数量
 int map_top=0,map_left=0,map_bottom,map_right;      //地图边界坐标
 int player_x,player_y;              //玩家坐标
 float start_time,now_time,end_time;          //游戏开始时间与结束时间
-int enemy_speed;
+int enemy_speed;                    //敌人速度因子
 
 //函数功能：将光标移动到(x,y)位置
 void gotoxy(int x,int y);
@@ -32,14 +35,15 @@ void start_input()
     cin>>map_right>>map_bottom;
     if(map_right > MAX_Y)
         map_right = MAX_Y;
-    else if(map_right < 10)
-        map_right = 10;
+    else if(map_right < MIN_Y)
+        map_right = MIN_Y;
     if(map_bottom > MAX_X)
         map_bottom = MAX_X;
-    else if(map_bottom < 10)
-        map_bottom = 10;
+    else if(map_bottom < MIN_X)
+        map_bottom = MIN_X;
     cout<<"请输入敌人速度（[1:4])"<<endl;
     cin>>enemy_speed;
+    enemy_speed = 5 - enemy_speed;
     if(enemy_speed > 4)
         enemy_speed = 4;
     else if(enemy_speed < 1)
@@ -188,7 +192,7 @@ void updateWithoutInput()   //Input irrelevant updates
     static int area_speed = (int)sqrt((MAX_X-1)*(MAX_Y)/((map_bottom-1)*(map_right-1)));        //面积速度因子，面积越大速度越快
     int speed_factor = ((now_time - start_time) / 1000.0)/10;
 
-    if(enemy_speed_num == time_speed/2*(5-enemy_speed)*area_speed){
+    if(enemy_speed_num == time_speed*enemy_speed*area_speed){
         enemy_chase();
         enemy_speed_num = 0;
         deal_enemyCoincide();
