@@ -1,10 +1,8 @@
 # depslib dependency file v1.0
-1617278240 source:e:\cgame\z1_holdonfor100seconds\main.cpp
+1620393635 source:e:\cgame\plane_3\main.cpp
 	<iostream>
 	<conio.h>
-	<time.h>
 	<stdlib.h>
 	<stdio.h>
 	<windows.h>
-	<math.h>
 
